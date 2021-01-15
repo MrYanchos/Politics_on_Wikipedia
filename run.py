@@ -1,7 +1,7 @@
 import sys
 import src.etl.get_anames as gn
 
-args = args[1:]
+args = sys.argv[1:]
 fname = ""
 
 if "scrape" in args:
@@ -12,3 +12,4 @@ if "retrieve" in args:
         artnames = gn.retrieve()
     else:
         artnames = gn.retrieve(fname)
+    print(artnames[:10])
