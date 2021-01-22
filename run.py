@@ -1,5 +1,6 @@
 import sys
 import src.etl.get_anames as gn
+import shutil
 
 args = sys.argv[1:]
 fname = ""
@@ -13,3 +14,6 @@ if "retrieve" in args:
     else:
         artnames = gn.retrieve(fname)
     print(artnames[:10])
+
+if "clean" in targets:
+    shutil.rmtree('src/data/raw', ignore_errors=True)
