@@ -4,6 +4,7 @@ import os
 from src.libcode import list_to_txt, txt_to_list
 
 def scrape(fname="artnames.txt"):
+    fpath = "src/data/temp/" + fname
 #     # request social and political philosophy index
 #     spp_resp = requests.get("https://en.wikipedia.org/wiki/Index_of_social_and_political_philosophy_articles")
 #     # request political index
@@ -41,9 +42,10 @@ def scrape(fname="artnames.txt"):
 #     fin_list = list(set(fin_list))
 
     # write to file
-    list_to_txt(fname, fin_list)
+    list_to_txt(fpath, fin_list)
 
     return fname
 
 def retrieve(fname="artnames.txt"):
-    return txt_to_list(fname)
+    fpath = "src/data/temp/" + fname
+    return txt_to_list(fpath)
