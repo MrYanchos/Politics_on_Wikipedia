@@ -20,9 +20,12 @@ if "all" in args:
     # gt.scrape_atexts()
     nametxt_dict = gt.retrieve_atexts()
     namestat_dict = gns.get_stat_dict(nametxt_dict)
-    print(namestat_dict)
+#     print(namestat_dict)
 
 if "test" in args:
+    nametxt_dict = gt.retrieve_atexts(test=True)
+    namestat_dict = gns.get_stat_dict(nametxt_dict, test=True)
+    print(namestat_dict)
     
 
 
