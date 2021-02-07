@@ -5,9 +5,12 @@ from nltk import stem
 from nltk.corpus import stopwords
 import string
 
-def get_stat_dict(nametxt_dict):
+def get_stat_dict(nametxt_dict, test=False):
 
-    pp_dir = "src/data/init/partisan_phrases/"
+    if test:
+        pp_dir = "test/partisan_phrases/"
+    else:
+        pp_dir = "src/data/init/partisan_phrases/"
     pp_txts = os.listdir(pp_dir)
     score_dict = {}
     for i in pp_txts:
@@ -68,5 +71,5 @@ def get_stat_dict(nametxt_dict):
     namestat_dict = {}
 
     for name, txt in nametxt_dict.items():
-        namestat_dict[name] = string_score(txt)
+        namestat_dict[name] = string_score(txt, score_dict)
     return namestat_dict
