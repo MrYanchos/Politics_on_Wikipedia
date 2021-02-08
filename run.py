@@ -45,7 +45,7 @@ if "test" in args:
     print(namestat_dict)
     gibc.sample_ibc("False")
     print("Running model on test data...")
-    pei(temp_directory="test/temp", out_directory = 'test/out', agg_func='mean')
+    pei.interpret_ibc(temp_directory="test/temp", out_directory = 'test/out', agg_func='mean')
     print("Finished, output in test/out/means.csv")
     
 
