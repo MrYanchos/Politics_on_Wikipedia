@@ -1,9 +1,10 @@
 import sys
+import subprocess
 import src.etl.get_anames as gn
 import src.etl.get_atexts as gt
 import src.etl.get_ibc as gibc
 import src.models.get_gns_scores as gns
-import src.models.partyembed-ibc as pei
+import src.models.partyembed_ibc as pei
 
 args = sys.argv[1:]
 fname = ""
@@ -24,6 +25,7 @@ if "ibc" in args:
     gibc.sample_ibc(**data_cfg)
 
 if "interpret_ibc" in args:
+    subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
     with open('config/interpret_ibc_params.json') as fh:
         data_cfg = json.load(fh)
     
@@ -37,6 +39,7 @@ if "all" in args:
 #     print(namestat_dict)
 
 if "test" in args:
+    subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
     nametxt_dict = gt.retrieve_atexts(test=True)
     namestat_dict = gns.get_stat_dict(nametxt_dict, test=True)
     print(namestat_dict)
