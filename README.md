@@ -10,7 +10,7 @@ It relies on data from the ideological books corpus (Sim et al., 2013) with sub-
 
 Once obtained, please extract the dataset to **/data/full_ibc/**
 
-Once this is done, please alter the config in **config/get_ibc_params** accordingly.
+Once this is done, please alter the config in **/config/get_ibc_params** accordingly.
 
 To run, in terminal type:
 ```
