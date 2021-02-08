@@ -14,6 +14,8 @@ import pandas as pd
 import string
 import shutil
 import os
+import requests
+
 
 def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg_func = 'mean',ibc_path='data/full_ibc/ibcData.pkl'):
     '''
@@ -31,6 +33,14 @@ def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg
         os.makedirs(temp_directory)
     if not os.path.exists(out_directory):
         os.makedirs(out_directory)
+    
+    # https://stackoverflow.com/questions/38511444/python-download-files-from-google-drive-using-url
+    # see remainder of the code at the bottom of this file
+    file_id = '17DWO_2UyjEZ9HnH3AACSdH3JZLpvb4bP'
+    destination = 'partyembed_models.tar.gz'
+    download_file_from_google_drive(file_id, destination)
+    tar = tarfile.open("partyembed_models.tar.gz", "r:gz") #extract
+    tar.extractall(path='partyembed/partyembed/models')
     
     [lib, con, neutral] = cPickle.load(open(ibc_path, 'rb')) # load IBC data
     m = Explore(model = 'House') # set up partyembed model
@@ -176,3 +186,38 @@ def func(nums, function = 'mean'):
         return np.max(fixed)
     else:
         return np.min(fixed)
+    
+    
+####################################################################################################
+## The following code is not ours.                                                                ##
+## https://stackoverflow.com/questions/38511444/python-download-files-from-google-drive-using-url ##
+####################################################################################################
+
+def download_file_from_google_drive(id, destination):
+    URL = "https://docs.google.com/uc?export=download"
+
+    session = requests.Session()
+
+    response = session.get(URL, params = { 'id' : id }, stream = True)
+    token = get_confirm_token(response)
+
+    if token:
+        params = { 'id' : id, 'confirm' : token }
+        response = session.get(URL, params = params, stream = True)
+
+    save_response_content(response, destination)    
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            return value
+
+    return None
+
+def save_response_content(response, destination):
+    CHUNK_SIZE = 32768
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
