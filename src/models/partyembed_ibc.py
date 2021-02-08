@@ -17,7 +17,7 @@ import os
 import requests
 
 
-def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg_func = 'mean',ibc_path='data/full_ibc/ibcData.pkl'):
+def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out/', agg_func = 'mean',ibc_path='data/full_ibc/ibcData.pkl', test=False):
     '''
     This function will write a series of TSVs interpreting each item in the IBC
     '''
@@ -41,28 +41,45 @@ def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg
     download_file_from_google_drive(file_id, destination)
     tar = tarfile.open("partyembed_models.tar.gz", "r:gz") #extract
     tar.extractall(path='partyembed/partyembed/models')
+    for i in os.listdir('partyembed/partyembed/models/partyembed_models'):
+        shutil.move(os.path.join('partyembed/partyembed/models/partyembed_models',i), os.path.join('partyembed/partyembed/models/',i))
     
     [lib, con, neutral] = cPickle.load(open(ibc_path, 'rb')) # load IBC data
     m = Explore(model = 'House') # set up partyembed model
     word_dict = {} #make the dictionary
     
-    for pref, clist in zip(['lib','con','neutral'],[lib,con,neutral]):
-        filenumbers = generate_filenumbers(np.arange(100,100*(len(clist) // 100)+100,100)) #generate indices for upcoming loops
-        filename_suffixes = [i[1] for i in filenumbers[:-1]] + [100*(len(clist) // 100)] #generate suffixes for filenames
-        filenames = []
-        for i in filename_suffixes:
-            filenames.append(pref + '-' + str(i) + '.tsv') #create the full filenames
-        for i,j in zip(filenames, filenumbers):
-            chunk_processor(i, clist, j[0], j[1], word_dict, m, temp_directory)
+    if not test:
+        for pref, clist in zip(['lib','con','neutral'],[lib,con,neutral]):
+            filenumbers = generate_filenumbers(np.arange(100,100*(len(clist) // 100)+100,100)) #generate indices for upcoming loops
+            filename_suffixes = [i[1] for i in filenumbers[:-1]] + [100*(len(clist) // 100)] #generate suffixes for filenames
+            filenames = []
+            for i in filename_suffixes:
+                filenames.append(pref + '-' + str(i) + '.tsv') #create the full filenames
+            for i,j in zip(filenames, filenumbers):
+                chunk_processor(i, clist, j[0], j[1], word_dict, m, temp_directory)
     
-    #combine all of the files into x and y variables
-    liby,libx = combiner('lib',100*(len(lib) // 100) + 100)
-    cony,conx = combiner('con',100*(len(con) // 100) + 100)
-    neuy,neux = combiner('neutral',100*(len(neutral) // 100) + 100)
-    x = libx+conx+neux
-    y = liby+cony+neuy
+        #combine all of the files into x and y variables
+        liby,libx = combiner('lib',100*(len(lib) // 100) + 100)
+        cony,conx = combiner('con',100*(len(con) // 100) + 100)
+        neuy,neux = combiner('neutral',100*(len(neutral) // 100) + 100)
+        x = libx+conx+neux
+        y = liby+cony+neuy
+
+        true_x = [func(i.split(', '),agg_func) for i in x]
     
-    true_x = [func(i.split(', '),agg_func) for i in x]
+    if test:
+        for clist in [lib,con,neutral]:
+            for i,j,k in zip(['lib-100.tsv','con-100.tsv','neu-100.tsv'], [[None,None],[None,None],[None,None]],[lib,con,neutral]):
+                word_dict = chunk_processor(i, k, j[0], j[1], word_dict, m, temp_directory)
+        
+        #combine all of the files into x and y variables
+        liby,libx = test_combiner('lib',100)
+        cony,conx = test_combiner('con',100)
+        neuy,neux = test_combiner('neu',100)
+        x = libx+conx+neux
+        y = liby+cony+neuy
+
+        true_x = [func(i.split(', '),agg_func) for i in x]
     with open(out_directory+'means.csv','w') as f:
         f.write('leaning,label\n')
         for i,j in zip(true_x,y):
@@ -74,7 +91,7 @@ def generate_filenumbers(arr):
     '''
     output = []
     previous = None
-    
+    print(arr)
     for i in arr:
         if i == arr[-1]: #if you're at the end,
             output.append([previous, None]) #use None in order to ensure you reach the end of the list
@@ -167,6 +184,32 @@ def combiner(prefix, number):
                     labels.append(prefix) #otherwise append everything
                     items.append(starter.replace('Name: dem, dtype: float64,', 'dem').replace('Name: rep, dtype: float64)', 'rep').replace('71    ','').replace('71   ','').replace('(',''))
                     starter = line.split('[')[1].strip() + ' ' #and restart
+    return labels, items
+
+def test_combiner(prefix, number):
+    '''
+    This function converts a set of tsvs into labels and items.
+    '''
+    starter = ''
+    labels = []
+    items = []
+    started = False
+    title = prefix + '-' + str(number) + '.tsv' #create filename
+    with open('test/temp/' + title, 'r') as f:
+        while True:
+            line = f.readline()
+            if not line:
+                break
+            if not started:
+                started = True
+                starter = line.split('[')[1].strip() + ' ' #account for first line special case
+                continue
+            if (line[0] == 'N'): #if in the middle of a line
+                starter += line.strip() + ' ' #append to your current WIP
+            else:
+                labels.append(prefix) #otherwise append everything
+                items.append(starter.replace('Name: dem, dtype: float64,', 'dem').replace('Name: rep, dtype: float64)', 'rep').replace('71    ','').replace('71   ','').replace('(',''))
+                starter = line.split('[')[1].strip() + ' ' #and restart
     return labels, items
 
 def func(nums, function = 'mean'):
