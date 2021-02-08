@@ -44,15 +44,15 @@ Main driver for running the project. The targets and their functions are:
 ### `src/etl/`
 
 * `bias.py` : Preliminary function for extracting bias from Rheault and Cochrane model.
-* `get_anames.py` : Insert description here.
-* `get_atexts.py` : Executes tasks for preparing data for ...
+* `get_anames.py` : Scrapes relevant article names.
+* `get_atexts.py` : Scrapes article contents for the list gathered above.
 * `get_ibc.py` : Downloads sample IBC data. For the full dataset, please see **Usage** above.
 * `validation_extractor.py` : Preliminary code for extracting a validation set from Wikipedia edits.
 
 ### `src/models/`
 
-* `get_gns_scores.py` : Insert description here.
-* `get_x2_scores.py` : Insert description here.
+* `get_gns_scores.py` : Assigns scores to the article texts according to Gentzkow, Shapiro, Taddy 2019.
+* `get_x2_scores.py` : Gets x2 scores based on the formula from Gentzkow and Shapiro 2010 from the IBC.
 * `loadIBC.py` : This project uses code from (Sim et al., 2013) and (Iyyer et al., 2014). As this was written in a previous version of python, these updated versions replace downloads made during the building process.
 * `partyembed_ibc.py` : This file extracts from the partyembed .issue() function the ideological leanings of each word in each sentence of the ideological books corpus. After applying an aggregate function on this data, it writes this to a csv.
 * `treeUtil.py` : This project uses code from (Sim et al., 2013) and (Iyyer et al., 2014). As this was written in a previous version of python, these updated versions replace downloads made during the building process.
