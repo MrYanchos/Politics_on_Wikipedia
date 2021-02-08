@@ -25,9 +25,13 @@ def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out/', ag
     # IBC code was written for an older version of python, replace it with updated files
     shutil.copyfile(os.path.join('src/models', 'loadIBC.py'), os.path.join('data/full_ibc', 'loadIBC.py'))
     shutil.copyfile(os.path.join('src/models', 'treeUtil.py'), os.path.join('data/full_ibc', 'treeUtil.py'))
-     
+    shutil.copyfile(os.path.join('src/models', 'loadIBC.py'), os.path.join('loadIBC.py'))
+    shutil.copyfile(os.path.join('src/models', 'treeUtil.py'), os.path.join('treeUtil.py'))
+    
     import data.full_ibc.loadIBC
     import data.full_ibc.treeUtil
+    import loadIBC
+    import treeUtil
     
     if not os.path.exists(temp_directory):
         os.makedirs(temp_directory)
