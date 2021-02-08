@@ -1,0 +1,5 @@
+{
+    'temp_directory' = 'data/temp/', 
+    'out_directory' = 'data/out', 
+    'agg_func' = 'mean'
+}
