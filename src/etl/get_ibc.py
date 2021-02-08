@@ -19,4 +19,5 @@ def sample_ibc(already_obtained="False"):
             f.write(r.content)
 
         tar = tarfile.open("data/full_ibc/sample_ibc.tar.gz", "r:gz") #extract
-        tar.extractall()
+        tar.extractall(path='data/full_ibc/')
+        os.rename('data/full_ibc/sampleData.pkl','data/full_ibc/ibcData.pkl')

@@ -2,6 +2,7 @@ import sys
 
 sys.path.insert(1, 'full_ibc')
 sys.path.insert(1, 'partyembed')
+sys.path.insert(1, 'data/full_ibc')
 
 import tarfile
 import numpy as np
@@ -14,7 +15,7 @@ import string
 import shutil
 import os
 
-def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg_func = 'mean'):
+def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg_func = 'mean',ibc_path='data/full_ibc/ibcData.pkl'):
     '''
     This function will write a series of TSVs interpreting each item in the IBC
     '''
@@ -31,7 +32,7 @@ def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out', agg
     if not os.path.exists(out_directory):
         os.makedirs(out_directory)
     
-    [lib, con, neutral] = cPickle.load(open('full_ibc/ibcData.pkl', 'rb')) # load IBC data
+    [lib, con, neutral] = cPickle.load(open(ibc_path, 'rb')) # load IBC data
     m = Explore(model = 'House') # set up partyembed model
     word_dict = {} #make the dictionary
     
