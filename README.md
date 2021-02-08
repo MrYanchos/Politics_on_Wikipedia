@@ -4,7 +4,13 @@ This project is focused on detecting political controversy in online communities
 
 ## Usage
 
-Building the Environment using Dockerfile...
+This code is intended to be run with the dockerfile vasyasha/pow_docker
+
+It relies on data from the ideological books corpus (Sim et al., 2013) with sub-sentential annotations (Iyyer et al., 2014). To download this data please visit https://people.cs.umass.edu/~miyyer/ibc/index.html where you can send an email to the address in order to obtain the full dataset.
+
+Once obtained, please extract the dataset to **/data/full_ibc/**
+
+Once this is done, please alter the config in **config/get_ibc_params** accordingly.
 
 To run, in terminal type:
 ```
@@ -37,20 +43,19 @@ Main driver for running the project. The targets and their functions are:
 
 ### `src/etl/`
 
-* `bias.py` : Insert description here.
+* `bias.py` : Preliminary function for extracting bias from Rheault and Cochrane model.
 * `get_anames.py` : Insert description here.
 * `get_atexts.py` : Executes tasks for preparing data for ...
-* `get_ibc.py` : Insert description here.
-* `validation_extractor.py` : Insert description here.
+* `get_ibc.py` : Downloads sample IBC data. For the full dataset, please see **Usage** above.
+* `validation_extractor.py` : Preliminary code for extracting a validation set from Wikipedia edits.
 
 ### `src/models/`
 
 * `get_gns_scores.py` : Insert description here.
 * `get_x2_scores.py` : Insert description here.
-* `loadIBC.py` : Insert description here.
-* `partyembed-ibc.py` : Insert description here.
-* `partyembed_ibc.py` : Insert description here.
-* `treeUtil.py` : Insert description here.
+* `loadIBC.py` : This project uses code from (Sim et al., 2013) and (Iyyer et al., 2014). As this was written in a previous version of python, these updated versions replace downloads made during the building process.
+* `partyembed_ibc.py` : This file extracts from the partyembed .issue() function the ideological leanings of each word in each sentence of the ideological books corpus. After applying an aggregate function on this data, it writes this to a csv.
+* `treeUtil.py` : This project uses code from (Sim et al., 2013) and (Iyyer et al., 2014). As this was written in a previous version of python, these updated versions replace downloads made during the building process.
 
 
 ### `src/data/`
