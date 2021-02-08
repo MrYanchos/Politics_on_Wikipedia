@@ -26,8 +26,8 @@ def interpret_ibc(temp_directory = 'data/temp/', out_directory = 'data/out/', ag
     shutil.copyfile(os.path.join('src/models', 'loadIBC.py'), os.path.join('data/full_ibc', 'loadIBC.py'))
     shutil.copyfile(os.path.join('src/models', 'treeUtil.py'), os.path.join('data/full_ibc', 'treeUtil.py'))
      
-    import loadIBC
-    import treeUtil
+    import data.full_ibc.loadIBC
+    import data.full_ibc.treeUtil
     
     if not os.path.exists(temp_directory):
         os.makedirs(temp_directory)
