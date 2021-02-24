@@ -2,11 +2,11 @@ import wikipediaapi as wp
 import os
 import time
 from src.libcode import txt_to_list, list_to_txt
-from src.etl.get_anames import retrieve
+from src.etl.get_anames import retrieve_anames
 
 def scrape_atexts(test = False):
     enwp = wp.Wikipedia("en")
-    anames = retrieve()
+    anames = retrieve_anames()
     num_per_text = len(anames)//10
     if test:
         wikitxts_dir = "test/wiki_txts/"
@@ -21,11 +21,20 @@ def scrape_atexts(test = False):
     for ind, aname in enumerate(anames):
         # Get the page text
     #     print(ind, aname)
-        curpg = enwp.page(aname)
-        curtit = curpg.title
-        curtxt = curpg.text
-        txtlst.append(curtit)
-        txtlst.append(curtxt)
+        try:
+            curpg = enwp.page(aname)
+            curtit = curpg.title
+            curtxt = curpg.text
+            txtlst.append(curtit)
+            txtlst.append(curtxt)
+        except Exception as e:
+            print("FINALLY CAUGHT YOU, ", e)
+            time.sleep(20)
+            curpg = enwp.page(aname)
+            curtit = curpg.title
+            curtxt = curpg.text
+            txtlst.append(curtit)
+            txtlst.append(curtxt)
         # This ensures it saves into 10 txt files
         if (ind+1) % num_per_text == 0:
             print(ind+1)
