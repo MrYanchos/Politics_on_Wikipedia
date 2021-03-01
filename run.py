@@ -5,6 +5,7 @@ import src.etl.get_atexts as gt
 import src.etl.get_ibc as gibc
 import src.models.get_gns_scores as gns
 import src.models.partyembed_ibc as pei
+import src.models.partyembed_current_pages as pecp
 
 args = sys.argv[1:]
 fname = ""
@@ -30,6 +31,9 @@ if "interpret_ibc" in args:
         data_cfg = json.load(fh)
     
     pei.interpret_ibc(**data_cfg)
+
+if "partyembed" in args:
+    pecp.main()
     
 if "all" in args:
     # fname = gn.scrape()
