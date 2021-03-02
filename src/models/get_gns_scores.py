@@ -72,4 +72,15 @@ def get_stat_dict(nametxt_dict, test=False):
 
     for name, txt in nametxt_dict.items():
         namestat_dict[name] = string_score(txt, score_dict)
+        
+    for name, stat in namestat_dict.items():
+        dispcnt = 1
+        procname = preproc_strn(name)[0]
+        is_intitle = False
+        for phr, freq in stat[3]:
+            if phr in procname:
+                is_intitle = True
+            dispcnt += 1
+
+        namestat_dict[name].append(is_intitle)
     return namestat_dict

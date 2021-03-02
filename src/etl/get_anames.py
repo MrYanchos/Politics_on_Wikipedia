@@ -3,8 +3,11 @@ from bs4 import BeautifulSoup
 import os
 from src.libcode import list_to_txt, txt_to_list
 
-def scrape(fname="artnames.txt"):
-    fpath = "src/data/temp/" + fname
+def scrape_anames(fname="artnames.txt"):
+    fbase = "src/data/temp/"
+    if not os.path.exists(fbase):
+        os.makedirs(fbase)
+    fpath = fbase + fname
 #     # request social and political philosophy index
 #     spp_resp = requests.get("https://en.wikipedia.org/wiki/Index_of_social_and_political_philosophy_articles")
 #     # request political index
@@ -46,6 +49,6 @@ def scrape(fname="artnames.txt"):
 
     return fname
 
-def retrieve(fname="artnames.txt"):
+def retrieve_anames(fname="artnames.txt"):
     fpath = "src/data/temp/" + fname
     return txt_to_list(fpath)
