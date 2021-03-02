@@ -6,6 +6,7 @@ import src.etl.get_ibc as gibc
 import src.models.get_gns_scores as gns
 import src.models.partyembed_ibc as pei
 import src.models.partyembed_current_pages as pecp
+import src.models.partyembed_revisions as per
 
 args = sys.argv[1:]
 fname = ""
@@ -34,6 +35,9 @@ if "interpret_ibc" in args:
 
 if "partyembed" in args:
     pecp.main()
+
+if "partyembed_time" in args:
+    per.main()
     
 if "all" in args:
     # fname = gn.scrape()
