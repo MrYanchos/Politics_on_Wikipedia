@@ -209,7 +209,7 @@ def main():
             prev = curr #update the frame of reference
             lines.append(title + "\t" + j['time'] + "\t" + str(newsum/newdivide)) #add line
             if count % 200 == 0: #in increments of 200, add information to a file
-                filename = title + str(count) + '.tsv'
+                filename = 'data/output/' + title + str(count) + '.tsv'
                 print(filename)
                 with open(filename,'w') as f:
                     for line in lines:
