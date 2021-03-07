@@ -40,11 +40,33 @@ if "partyembed_time" in args:
     per.main()
     
 if "all" in args:
+    subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
     # fname = gn.scrape()
     # gt.scrape_atexts()
     nametxt_dict = gt.retrieve_atexts()
     namestat_dict = gns.get_stat_dict(nametxt_dict)
 #     print(namestat_dict)
+
+
+    # get IBC data
+    with open('config/get_ibc_params.json') as fh:
+        data_cfg = json.load(fh)
+    gibc.sample_ibc(**data_cfg)
+    
+    # run on IBC
+    print("Running model on IBC Data...")
+    with open('config/interpret_ibc_params.json') as fh:
+        data_cfg = json.load(fh)
+    pei.interpret_ibc(**data_cfg)
+    print("Finished IBC, output in test/out/means.csv")
+    
+    # run on current articles
+    print("Running partyembed model on Current Page articles")
+    pecp.main()
+    
+    #run on revision histories
+    print("Running partyembed model on Revision Histories")
+
 
 if "test" in args:
     subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
@@ -55,6 +77,14 @@ if "test" in args:
     print("Running model on test data...")
     pei.interpret_ibc(temp_directory="test/temp/", out_directory = 'test/out/', agg_func='mean',ibc_path='data/full_ibc/ibcData.pkl',test=True)
     print("Finished, output in test/out/means.csv")
+    
+    #partyembed
+    print("Testing current page articles")
+    pecp.test()
+    print("Complete")
+    print("Testing revision histories")
+    per.main()
+    print("Complete")
     
 
 
