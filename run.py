@@ -3,6 +3,7 @@ import subprocess
 import src.etl.get_anames as gn
 import src.etl.get_atexts as gt
 import src.etl.get_ibc as gibc
+import src.etl.get_revision_xmls as grx
 import src.models.get_gns_scores as gns
 import src.models.partyembed_ibc as pei
 import src.models.partyembed_current_pages as pecp
@@ -32,6 +33,9 @@ if "interpret_ibc" in args:
         data_cfg = json.load(fh)
     
     pei.interpret_ibc(**data_cfg)
+
+if "revision_xmls" in args:
+    grx.main()
 
 if "partyembed" in args:
     pecp.main()
@@ -66,6 +70,7 @@ if "all" in args:
     
     #run on revision histories
     print("Running partyembed model on Revision Histories")
+    per.main()
 
 
 if "test" in args:
@@ -78,12 +83,14 @@ if "test" in args:
     pei.interpret_ibc(temp_directory="test/temp/", out_directory = 'test/out/', agg_func='mean',ibc_path='data/full_ibc/ibcData.pkl',test=True)
     print("Finished, output in test/out/means.csv")
     
+    grx.test()
+    
     #partyembed
     print("Testing current page articles")
     pecp.test()
     print("Complete")
     print("Testing revision histories")
-    per.main()
+    per.test()
     print("Complete")
     
 

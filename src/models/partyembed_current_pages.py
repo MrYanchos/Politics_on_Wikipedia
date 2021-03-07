@@ -285,8 +285,8 @@ def test():
         '''
         For writing the .tsv results in increments of 2
         '''
-        count = number - 2 #set the count for which article you are on, modified
-        index = number - 2 #for setting the loop index, not to be modified
+        count = number - 1 #set the count for which article you are on, modified
+        index = number - 1 #for setting the loop index, not to be modified
         filename = 'test/output/result' + str(number) + '.tsv'
         
         with open(filename,'w') as f:
@@ -300,4 +300,4 @@ def test():
                 f.write(str(count) + '\t' + i + '\t' + str(mean) + '\n') #write line
                 count += 1 #increment article
 
-    writer(2)
+    writer(1)
