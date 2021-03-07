@@ -161,7 +161,7 @@ def main():
                 f.write(str(count) + '\t' + i + '\t' + str(mean) + '\n')
                 count += 1
 
-    #for k in np.arange(50,650,50):
-    #    writer(k)
+    for k in np.arange(50,650,50):
+        writer(k)
     final_writer()
    

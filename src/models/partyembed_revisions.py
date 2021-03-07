@@ -38,7 +38,6 @@ def main():
                 plst.append(word)
         numwords = len(plst)
         curstr = ' '.join(plst)
-        #return (curstr, numwords)
         return curstr
 
     xmls_base = "data/temp/wiki_xmls/"
@@ -178,26 +177,13 @@ def main():
 
 
     for title,i in resdict.items():
-        if title == 'Tammy_Baldwin':
-            continue
-        elif title == 'Late-night_talk_show':
-            continue
-        elif title == 'Jim_Acosta':
-            continue
-        elif title == 'Separation_of_church_and_state_in_the_United_States':
-            continue
-        elif title == 'Justice_Democrats':
-            continue
-        elif title == 'Era_of_Good_Feelings':
-            continue
-        elif title == 'Mueller_report':
-            continue
         count = 0
         lines = []
 
         prev = preproc_strn(i[0]['text']).split(" ") #clean the initial version of the article
         initial = outer(text_to_dict(prev),m) #and get its initial leaning
         lines.append(title + "\t" + i[0]['time'] + "\t" + str(initial[0]/initial[1])) #write a line account for this
+        newsum, newdivide = initial[0], initial[1]
         for j in i[1:]: #for each subsequent revision,
             count += 1
             curr = preproc_strn(j['text']).split(" ") #clean and split the new version
@@ -205,7 +191,7 @@ def main():
             subtract = outer(smaller_ttd(former),m) #recieve scores adjustments for the removed words
             add = outer(smaller_ttd(latter),m) #and the added words
             #subtract and add respectively
-            newsum, newdivide = initial[0] - subtract[0] + add[0], initial[1] - subtract[1] + add[1]
+            newsum, newdivide = newsum - subtract[0] + add[0], newdivide - subtract[1] + add[1]
             prev = curr #update the frame of reference
             lines.append(title + "\t" + j['time'] + "\t" + str(newsum/newdivide)) #add line
             if count % 200 == 0: #in increments of 200, add information to a file
@@ -215,7 +201,7 @@ def main():
                     for line in lines:
                         f.write(line + '\n')
                 lines = []
-        filename = title + str(count) + '.tsv'
+        filename = 'data/output/' + title + str(count) + '.tsv'
         with open(filename,'w') as f: #account for the remainder (after the final 200 increment)
             for line in lines:
                 f.write(line + '\n')
