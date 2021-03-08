@@ -22,8 +22,8 @@ python run.py *target*
 ### `run.py`
 
 Main driver for running the project. The targets and their functions are:
-* `scrape_anames` : 
-* `retrieve_anames` :
+* `scrape_anames` : scrapes political article names
+* `retrieve_anames` : obtains political articles
 * `ibc` : downloads test IBC data
 * `interpret_ibc` : runs partyembed model on IBC data
 * `revision_xmls` : downloads XML files for nine political Wikipedia articles
