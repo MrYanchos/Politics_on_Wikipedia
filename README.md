@@ -22,6 +22,13 @@ python run.py *target*
 ### `run.py`
 
 Main driver for running the project. The targets and their functions are:
+* scrape_anames : 
+* retrieve_anames :
+* ibc : downloads test IBC data
+* interpret_ibc : runs partyembed model on IBC data
+* revision_xmls : downloads XML files for nine political Wikipedia articles
+* partyembed : runs Rheault and Cochrane model on current-page Wikipedia articles
+* partyembed_time : runs Rheault and Cochrane model on Wikipedia edit histories
 * all : Runs the whole pipeline.
 * test: Runs the pipeline with pre-loaded test data.
 
@@ -33,9 +40,7 @@ Main driver for running the project. The targets and their functions are:
 
 ### `notebooks/`
 
-* EDA.ipynb : Jupyter notebook for developing code to get Wikipedia article text.
 * Partyembed+IBC_EDA.ipynb : Jupyter notebook for the exploratory data analysis on Party_embed and IBC.
-* IBC_preprocessing.ipynb : Jupyter notebook for preprocessing IBC data.
 
 ### `src/`
 
@@ -47,19 +52,19 @@ Main driver for running the project. The targets and their functions are:
 * `get_anames.py` : Scrapes relevant article names.
 * `get_atexts.py` : Scrapes article contents for the list gathered above.
 * `get_ibc.py` : Downloads sample IBC data. For the full dataset, please see **Usage** above.
-* `validation_extractor.py` : Preliminary code for extracting a validation set from Wikipedia edits.
+* `get_revision_xmls.py` : Downloads xml files using Wikipedia API for our time series analysis
 
 ### `src/models/`
 
+* `difflib_bigrams.py` : Finds text difference between two article states
 * `get_gns_scores.py` : Assigns scores to the article texts according to Gentzkow, Shapiro, Taddy 2019.
 * `get_x2_scores.py` : Gets x2 scores based on the formula from Gentzkow and Shapiro 2010 from the IBC.
+* `gns_histories.py` : Applies Gentzkow and Shapiro 2010 approach on edit histories
 * `loadIBC.py` : This project uses code from (Sim et al., 2013) and (Iyyer et al., 2014). As this was written in a previous version of python, these updated versions replace downloads made during the building process.
+* `partyembed_current_pages.py` : Applies partyembed model to get scores for the current pages of political Wikipedia articles
 * `partyembed_ibc.py` : This file extracts from the partyembed .issue() function the ideological leanings of each word in each sentence of the ideological books corpus. After applying an aggregate function on this data, it writes this to a csv.
+* `partyembed_revisions.py` : Applies partyembed model on edit histories to find change over time.
 * `treeUtil.py` : This project uses code from (Sim et al., 2013) and (Iyyer et al., 2014). As this was written in a previous version of python, these updated versions replace downloads made during the building process.
-
-
-### `src/data/`
-Contains raw datasets.
 
 
 ## Sources
