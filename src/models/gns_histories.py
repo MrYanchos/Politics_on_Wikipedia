@@ -28,8 +28,13 @@ def get_all_history_stats(test = False):
     else:
         xmls_base = "src/data/temp/wiki_xmls/"
     
+    if not os.path.exists(xmls_base):
+        os.makedirs(xmls_base)
+        
     # Base directory for saving resdicts
     rd_base = "src/data/temp/resdicts/"
+    if not os.path.exists(rd_base):
+        os.makedirs(rd_base)
     
     # Get and split anames into chunks of 20 for chunk-wise processing
     anames = retrieve_anames()
@@ -74,8 +79,7 @@ def get_all_history_stats(test = False):
         exp_end = "&history=1&action=submit"
         
 
-        if not os.path.exists(xmls_base):
-            os.makedirs(xmls_base)
+        
 
         for tit in for_hist_und:
             url = exp_base + tit + exp_end
