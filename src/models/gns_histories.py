@@ -23,7 +23,10 @@ def get_all_history_stats(test = False):
     nltk.download("stopwords")
     
     # Base directory for saving/processing article histories
-    xmls_base = "src/data/temp/wiki_xmls/"
+    if test:
+        xmls_base = "test/temp/wiki_xmls/"
+    else:
+        xmls_base = "src/data/temp/wiki_xmls/"
     
     # Base directory for saving resdicts
     rd_base = "src/data/temp/resdicts/"
@@ -204,9 +207,11 @@ def get_all_history_stats(test = False):
         
     for ind, hst in enumerate(alst):
         # For each chunk of 20 scrapes, processes, and deletes the articles
-        get_art_hists(hst)
+        if not test:
+            get_art_hists(hst)
         get_hist_stats("rd" + str(ind+1))
-        del_art_hists()
+        if not test:
+            del_art_hists()
         
         
         

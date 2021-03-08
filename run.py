@@ -8,6 +8,7 @@ import src.models.get_gns_scores as gns
 import src.models.partyembed_ibc as pei
 import src.models.partyembed_current_pages as pecp
 import src.models.partyembed_revisions as per
+import src.models.gns_histories as gnsh
 
 args = sys.argv[1:]
 fname = ""
@@ -75,9 +76,13 @@ if "all" in args:
 
 if "test" in args:
     subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
+    
+    #G&S
     nametxt_dict = gt.retrieve_atexts(test=True)
     namestat_dict = gns.get_stat_dict(nametxt_dict, test=True)
     print(namestat_dict)
+    gnsh.get_all_history_stats(test = True)
+    
     gibc.sample_ibc("False")
     print("Running model on test data...")
     pei.interpret_ibc(temp_directory="test/temp/", out_directory = 'test/out/', agg_func='mean',ibc_path='data/full_ibc/ibcData.pkl',test=True)
