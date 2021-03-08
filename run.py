@@ -76,7 +76,7 @@ if "all" in args:
 
 if "test" in args:
     subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
-    gn.get_anames()
+    gn.scrape_anames()
     gibc.sample_ibc("False")
     print("Running model on test data...")
     pei.interpret_ibc(temp_directory="test/temp/", out_directory = 'test/out/', agg_func='mean',ibc_path='data/full_ibc/ibcData.pkl',test=True)
