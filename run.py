@@ -76,26 +76,29 @@ if "all" in args:
 
 if "test" in args:
     subprocess.call('git clone https://github.com/lrheault/partyembed.git', shell = True)
-    
-    #G&S
-    nametxt_dict = gt.retrieve_atexts(test=True)
-    namestat_dict = gns.get_stat_dict(nametxt_dict, test=True)
-    print(namestat_dict)
-    gnsh.get_all_history_stats(test = True)
-    
+
     gibc.sample_ibc("False")
     print("Running model on test data...")
-    pei.interpret_ibc(temp_directory="test/temp/", out_directory = 'test/out/', agg_func='mean',ibc_path='data/full_ibc/ibcData.pkl',test=True)
+#     pei.interpret_ibc(temp_directory="test/temp/", out_directory = 'test/out/', agg_func='mean',ibc_path='data/full_ibc/ibcData.pkl',test=True)
     print("Finished, output in test/out/means.csv")
     
     grx.test()
     
     #partyembed
-    print("Testing current page articles")
+    print("Partyembed: testing current page articles")
     pecp.test()
     print("Complete")
-    print("Testing revision histories")
+    print("Partyembed: testing revision histories")
     per.test()
+    print("Complete")
+    
+    #G&S
+    print("G&S: testing current page articles")
+    nametxt_dict = gt.retrieve_atexts(test=True)
+    namestat_dict = gns.get_stat_dict(nametxt_dict, test=True)
+    print("Complete")
+    print("G&S: testing revision histories")
+    gnsh.get_all_history_stats(test = True)
     print("Complete")
     
 

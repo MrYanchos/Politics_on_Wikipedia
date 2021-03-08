@@ -148,8 +148,8 @@ def get_all_history_stats(test = False):
         for name, revl in resdict.items():
             prevr = db.bigram(preproc_strn(revl[0]["text"])[0])
             for rev in revl:
-                if cnt % 1000 == 1:
-                    print(cnt)
+#                 if cnt % 1000 == 1:
+#                     print(cnt)
                 cnt += 1
                 curr = db.bigram(preproc_strn(rev["text"])[0])
                 diffs = db.unique_items(prevr, curr)
@@ -204,15 +204,15 @@ def get_all_history_stats(test = False):
             os.remove(f)
             
             
-        
-    for ind, hst in enumerate(alst):
-        # For each chunk of 20 scrapes, processes, and deletes the articles
-        if not test:
+    if not test:
+        for ind, hst in enumerate(alst):
+            # For each chunk of 20 scrapes, processes, and deletes the articles
             get_art_hists(hst)
-        get_hist_stats("rd" + str(ind+1))
-        if not test:
+            get_hist_stats("rd" + str(ind+1))
             del_art_hists()
-        
+    else:
+        get_hist_stats("testrd")
+
         
         
 
