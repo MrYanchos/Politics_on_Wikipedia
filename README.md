@@ -22,25 +22,25 @@ python run.py *target*
 ### `run.py`
 
 Main driver for running the project. The targets and their functions are:
-* scrape_anames : 
-* retrieve_anames :
-* ibc : downloads test IBC data
-* interpret_ibc : runs partyembed model on IBC data
-* revision_xmls : downloads XML files for nine political Wikipedia articles
-* partyembed : runs Rheault and Cochrane model on current-page Wikipedia articles
-* partyembed_time : runs Rheault and Cochrane model on Wikipedia edit histories
-* all : Runs the whole pipeline.
-* test: Runs the pipeline with pre-loaded test data.
+* `scrape_anames` : 
+* `retrieve_anames` :
+* `ibc` : downloads test IBC data
+* `interpret_ibc` : runs partyembed model on IBC data
+* `revision_xmls` : downloads XML files for nine political Wikipedia articles
+* `partyembed` : runs Rheault and Cochrane model on current-page Wikipedia articles
+* `partyembed_time` : runs Rheault and Cochrane model on Wikipedia edit histories
+* `all` : Runs the whole pipeline.
+* `test`: Runs the pipeline with pre-loaded test data.
 
 ### `config/`
 
-* get_ibc_params.json : Input parameters for running the ibc target.
+* `get_ibc_params.json` : Input parameters for running the ibc target.
 
-* interpret_ibc_params.json : Input parameters for running the interpret_ibc target.
+* `interpret_ibc_params.json` : Input parameters for running the interpret_ibc target.
 
 ### `notebooks/`
 
-* Partyembed+IBC_EDA.ipynb : Jupyter notebook for the exploratory data analysis on Party_embed and IBC.
+* `Partyembed+IBC_EDA.ipynb` : Jupyter notebook for the exploratory data analysis on Party_embed and IBC.
 
 ### `src/`
 
